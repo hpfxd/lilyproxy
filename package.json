@@ -1,0 +1,23 @@
+{
+  "name": "lilyproxy",
+  "version": "1.0.0",
+  "description": "Free-to-use proxy for Minecraft.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "hpfxd",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.3.2",
+    "dns-then": "^0.1.0",
+    "flakeid": "^0.3.1",
+    "hoek": "^5.0.4",
+    "http-proxy-agent": "^2.1.0",
+    "https-proxy-agent": "^2.2.1",
+    "proxy-verifier": "^0.4.0",
+    "proxysocket": "^1.2.0",
+    "tunnel-agent": "^0.6.0",
+    "varint": "^5.0.0"
+  }
+}
