@@ -3,5 +3,5 @@
 161.129.154.88:30593 # freemc.host
 173.249.48.235:25839 # cubehosting.eu
 172.106.203.22:1081 # aquatis.host
-# 172.107.165.3:1082 # aquatis.host
-# 158.69.227.64:25571 # skynode.pro
+172.107.165.3:1082 # aquatis.host
+158.69.227.64:25571 # skynode.pro

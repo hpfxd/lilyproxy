@@ -169,6 +169,7 @@ function loadProxies() {
 			const len = proxyList.length;
 			let done = false;
 			let i = 0;
+			const newList = [];
 			proxyList.forEach((proxy, index) => {
 				proxy = proxy.split(":");
 				proxy = {
@@ -192,6 +193,7 @@ function loadProxies() {
 							proxy.supported = true;
 						}
 						if (proxy.supported) {
+							newList.push(`${proxy.ipAddress}:${proxy.port}`);
 							console.log("    Protocols");
 							Object.keys(result.protocols).forEach((protocol) => {
 								console.log("      " + capitalizeFirstLetter(protocol.toLowerCase()));
@@ -212,7 +214,7 @@ function loadProxies() {
 			const resolveChecker = setInterval(() => {
 				if (done) {
 					clearInterval(resolveChecker);
-					resolve(proxyList);
+					resolve(newList);
 				}
 			}, 100);
 		} else {
