@@ -19,7 +19,7 @@ app.events.on("connect", (connection) => {
 		!currentChannels.pre.includes(connection.id) &&
 		!currentChannels.ids[connection.id] &&
 		connection.ping &&
-		!client.channels.find("name", channelname)
+		!client.channels.find("name", x => x.name === channelname)
 	) {
 		currentChannels.pre.push(connection.id);
 		guild.createChannel(channelname, "text").then((channel) => {
