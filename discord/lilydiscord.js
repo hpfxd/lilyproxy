@@ -13,7 +13,7 @@ client.on("ready", () => {
 });
 
 app.events.on("connect", (connection) => {
-	const channelname = `${connection.address.host.replace(/\./g, "-")}${connection.address.port !== 25565 ? `-${connection.address.port}`: ""}`;
+	const channelname = `${connection.addressInitial.host.replace(/\./g, "-")}${connection.addressInitial.port !== 25565 ? `-${connection.addressInitial.port}`: ""}`;
 	if (
 		connection.state === "login" &&
 		!currentChannels.pre.includes(connection.id) &&
@@ -30,7 +30,7 @@ app.events.on("connect", (connection) => {
 					title: "Server Info",
 					fields: [{
 						name: "IP",
-						value: `${connection.address.host}:${connection.address.port}\n${connection.address.host.replace(/\./g, "_")}_${connection.address.port}.proxy.hpf.fun:25501`
+						value: `${connection.addressInitial.host}:${connection.addressInitial.port}\n${connection.addressInitial.host.replace(/\./g, "_")}_${connection.addressInitial.port}.proxy.hpf.fun:25501`
 					}, {
 						name: "Version",
 						value: connection.ping.version.name

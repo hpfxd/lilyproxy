@@ -20,7 +20,7 @@ module.exports = {
 			ip.substr(0, ip.lastIndexOf("_")).replace(/_/g, "."),
 			parseInt(ip.substr(ip.lastIndexOf("_") + 1))
 		];
-		const origip = ip[0];
+		const origip = [ip[0], ip[1]];
 		(async () => {
 			try {
 				const addresses = await dns.resolveSrv("_minecraft._tcp." + ip[0]);
@@ -57,8 +57,12 @@ module.exports = {
 				});
 
 				packet.connection.address = {
-					host: origip,
+					host: ip[0],
 					port: ip[1]
+				};
+				packet.connection.addressInitial = {
+					host: origip[0],
+					port: origip[1]
 				};
 				try {
 					packet.connection.ping = await pinger.pingPromise(ip[0], ip[1]);
