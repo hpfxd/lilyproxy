@@ -67,7 +67,7 @@ module.exports = {
 					if (!packet.connection.socket.remote.destroyed) {
 						app.events.emit("connect", packet.connection);
 					}
-				}, 3000);
+				}, 8000);
 			}, 100);
 		}
 	}
