@@ -39,7 +39,7 @@ module.exports = {
 				const addresses = await dns.resolve4(ip[0]);
 				ip[0] = addresses[0];
 			} catch (ignored) {}
-			console.log("connecting with %s:%d", ip[0], ip[1]);
+			console.log("connecting with %s:%d", origip[0], origip[1]);
 			packet.connection.socket.remote.connect(ip[0], ip[1]);
 			setTimeout(async () => {
 				packet.connection.queued.forEach((p, i) => {
@@ -67,11 +67,9 @@ module.exports = {
 				try {
 					packet.connection.ping = await pinger.pingPromise(ip[0], ip[1]);
 				} catch (ignored) {}
-				setTimeout(() => {
-					if (!packet.connection.socket.remote.destroyed) {
-						app.events.emit("connect", packet.connection);
-					}
-				}, 8000);
+				if (!packet.connection.socket.remote.destroyed) {
+					app.events.emit("connect", packet.connection);
+				}
 			}, 100);
 		}
 	}
