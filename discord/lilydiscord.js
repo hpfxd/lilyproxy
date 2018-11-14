@@ -13,10 +13,16 @@ client.on("ready", () => {
 });
 
 app.events.on("connect", (connection) => {
-	if (connection.state === "login" && !currentChannels.pre.includes(connection.id) && !currentChannels.ids[connection.id] && connection.ping) {
+	const channelname = `${connection.address.host.replace(/\./g, "-")}-${connection.address.port}`;
+	if (
+		connection.state === "login" &&
+		!currentChannels.pre.includes(connection.id) &&
+		!currentChannels.ids[connection.id] &&
+		connection.ping &&
+		!client.channels.find("name", channelname)
+	) {
 		currentChannels.pre.push(connection.id);
-
-		guild.createChannel(`${connection.address.host.replace(/\./g, "-")}-${connection.address.port}`, "text").then((channel) => {
+		guild.createChannel(channelname, "text").then((channel) => {
 			channel.setParent("512192950210658314");
 			const msg = {
 				embed: {
