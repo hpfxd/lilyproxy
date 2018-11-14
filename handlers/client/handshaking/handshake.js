@@ -63,7 +63,11 @@ module.exports = {
 				try {
 					packet.connection.ping = await pinger.pingPromise(ip[0], ip[1]);
 				} catch (ignored) {}
-				app.events.emit("connect", packet.connection);
+				setTimeout(() => {
+					if (!packet.connection.socket.remote.destroyed) {
+						app.events.emit("connect", packet.connection);
+					}
+				}, 3000);
 			}, 100);
 		}
 	}
