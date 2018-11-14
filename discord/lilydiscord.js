@@ -31,12 +31,16 @@ app.events.on("connect", (connection) => {
 					}, {
 						name: "Players",
 						value: `${connection.ping.players.online}/${connection.ping.players.max}`
-					}, {
-						name: "Description",
-						value: parseTextObj(connection.ping.description.extra)
 					}]
 				}
 			};
+
+			if (connection.ping.description.extra) {
+				msg.embed.fields.push({
+					name: "Description",
+					value: parseTextObj(connection.ping.description.extra)
+				});
+			}
 
 			if (connection.ping.favicon) {
 				const favicon = new Buffer(connection.ping.favicon.replace(/^data:image\/png;base64,/, ""), "base64");
