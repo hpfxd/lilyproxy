@@ -1,11 +1,15 @@
 const net = require("net");
+const events = require("./events.js");
+require("rooty")();
 const packets = require("./handlers/packets.js");
 const varint = require("varint");
 const proxysocket = require("proxysocket");
 const fs = require("fs");
-const ProxyVerifier = require("proxy-verifier");
+const uuid = require("uuid/v4");
+module.exports.events = events;
 const dev = process.argv.length <= 4 ? process.argv[3] === "dev" ? true : false : false;
 require("colors");
+require("./discord/lilydiscord.js");
 
 if (process.argv.length < 3) {
 	console.log("usage: %s <localport>", process.argv[1]);
@@ -29,8 +33,10 @@ loadProxies().then((proxies) => {
 			buffer: {
 				remote: Buffer.alloc(0),
 				local: Buffer.alloc(0)
-			}
+			},
+			id: uuid()
 		};
+		events.emit("init", connection);
 
 		connection.socket.local.on("connect", (data) => {
 			console.log(">>> connection #%d from %s:%d",
@@ -81,6 +87,7 @@ loadProxies().then((proxies) => {
 		});
 
 		connection.socket.remote.on("close", () => {
+			events.emit("close", connection);
 			connection.socket.local.end();
 		});
 	});
@@ -164,6 +171,8 @@ function loadProxies() {
 				str !== "" &&
 				!str.startsWith("#")
 		});
+		resolve(proxyList);
+		/*
 		if (!dev) {
 			console.log("Proxies");
 			const len = proxyList.length;
@@ -220,6 +229,7 @@ function loadProxies() {
 		} else {
 			resolve(proxyList);
 		}
+		*/
 	});
 }
 
