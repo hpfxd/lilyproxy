@@ -1,0 +1,23 @@
+{
+	"commands": {
+		"help.js": {
+			"displayname": "Commands",
+			"name": "help",
+			"description": "Show all LilyBot commands.",
+			"usage": "{{command}}",
+			"aliases": [
+				"commands"
+			]
+		},
+		"getip.js": {
+			"displayname": "Get IP",
+			"name": "getip",
+			"description": "Get the LilyProxy IP of the requested server.",
+			"usage": "{{command}} <ip>",
+			"aliases": [
+				"findip",
+				"getproxyip"
+			]
+		}
+	}
+}

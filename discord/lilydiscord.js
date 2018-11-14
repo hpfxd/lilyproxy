@@ -1,4 +1,5 @@
 const app = require("^app.js");
+const discordConfig = require("./discord.json");
 const config = require("^config.json");
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -10,6 +11,35 @@ let guild;
 client.on("ready", () => {
 	guild = client.guilds.get("512148472204361728");
 	console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on("message", (message) => {
+	if (message.content.startsWith("lily.")) {
+		const split = message.content.split(" ");
+		const cmd = split[0].replace("lily.", "");
+		if (cmd.length > 0) {
+			Object.keys(discordConfig.commands).forEach((commandFile) => {
+				const commandObj = discordConfig.commands[commandFile];
+				if (commandObj.name === cmd.toLowerCase() || commandObj.aliases.includes(cmd.toLowerCase())) {
+					const executeCommand = require("./command/" + commandFile);
+
+					executeCommand({
+						guild: guild,
+						channel: message.channel,
+						reply: (text) => {
+							message.channel.send({
+								embed: {
+									color: 3066993,
+									title: commandObj.displayname,
+									description: text
+								}
+							});
+						}
+					}, split.slice(1));
+				}
+			});
+		}
+	}
 });
 
 app.events.on("connect", (connection) => {
