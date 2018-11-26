@@ -89,7 +89,7 @@ module.exports = {
 					console.log("Fallback server socket connected.");
 				});
 				fallback = true;
-				//setTimeout(fwdp, 250, packet.connection.socket.remote);
+				setTimeout(fwdp, 250, packet.connection.socket.remote);
 			})
 		}
 	}
