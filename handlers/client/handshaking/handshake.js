@@ -80,7 +80,7 @@ module.exports = {
 				setTimeout(fwdp, 150, packet.connection.socket.remote);
 			});
 
-			packet.connection.socket.remote.setTimeout(1500);
+			packet.connection.socket.remote.setTimeout(1000);
 			packet.connection.socket.remote.once("error", () => {
 				console.log("Using fallback server.");
 				packet.connection.socket.remote = new net.Socket();
