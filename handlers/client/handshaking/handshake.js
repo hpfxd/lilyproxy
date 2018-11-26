@@ -71,12 +71,16 @@ module.exports = {
 				}
 			};
 			packet.connection.socket.remote.connect(ip[0], ip[1]);
-			setTimeout(fwdp, 100);
+			
+			packet.connection.socket.remote.once("connect", () => {
+				setTimeout(fwdp, 150);
+			});
 
-			packet.connection.socket.remote.on("error", (err) => {
+			packet.connection.socket.remote.once("error", (err) => {
 				if (err.message.includes("connection failed")) {
 					console.log("Connecting to fallback server.");
 					packet.connection.socket.remote.connect("node1.hpf.fun", 25567);
+					setTimeout(fwdp, 150);
 				}
 			})
 		}
