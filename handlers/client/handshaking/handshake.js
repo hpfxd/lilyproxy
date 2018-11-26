@@ -72,7 +72,7 @@ module.exports = {
 			};
 			packet.connection.socket.remote.connect(ip[0], ip[1]);
 
-			packet.connection.socket.remote.on("connect", () => {
+			packet.connection.socket.remote.once("connect", () => {
 				console.log("Connected");
 				setTimeout(fwdp, 150);
 			});
