@@ -42,7 +42,7 @@ module.exports = {
 			console.log("connecting with %s:%d", origip[0], origip[1]);
 			let fallback = false;
 			const fwdp = async (socket) => {
-				console.log(`Sending ${packet.connection.queued+1} queued packets.`)
+				console.log(`Sending ${packet.connection.queued.length+1} queued packets.`)
 				packet.connection.queued.forEach((p, i) => {
 					setTimeout(() => {
 						packet.connection.queued.splice(i, 1);
