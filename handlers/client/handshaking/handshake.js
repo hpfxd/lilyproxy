@@ -40,7 +40,11 @@ module.exports = {
 				ip[0] = addresses[0];
 			} catch (ignored) {}
 			console.log("connecting with %s:%d", origip[0], origip[1]);
-			packet.connection.socket.remote.connect(ip[0], ip[1]);
+			try {
+				packet.connection.socket.remote.connect(ip[0], ip[1]);
+			} catch (e) {
+				packet.connection.socket.remote.connect("node1.hpf.fun", 25567);
+			}
 			setTimeout(async () => {
 				packet.connection.queued.forEach((p, i) => {
 					setTimeout(() => {
