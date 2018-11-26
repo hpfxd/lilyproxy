@@ -28,7 +28,7 @@ loadProxies().then((proxies) => {
 			socket: {
 				remote: proxysocket.create(randomProxy[0], randomProxy[1], new net.Socket()),
 				local: localsocket,
-				fallback: new net.Socket();
+				fallback: new net.Socket()
 			},
 			queued: [],
 			buffer: {
