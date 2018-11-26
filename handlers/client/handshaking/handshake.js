@@ -1,7 +1,8 @@
 const varint = require("varint");
 const dns = require("dns-then");
 const app = require("^app.js");
-const pinger = require("minecraft-pinger")
+const pinger = require("minecraft-pinger");
+const net = require("net");
 
 module.exports = {
 	handle: (packet) => {

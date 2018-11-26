@@ -59,6 +59,8 @@ loadProxies().then((proxies) => {
 		};
 		events.emit("init", connection);
 
+		connection.socket.createRemoteListeners();
+
 		connection.socket.local.on("connect", (data) => {
 			console.log(">>> connection #%d from %s:%d",
 				server.connections,
