@@ -27,8 +27,7 @@ loadProxies().then((proxies) => {
 		const connection = {
 			socket: {
 				remote: proxysocket.create(randomProxy[0], randomProxy[1], new net.Socket()),
-				local: localsocket,
-				fallback: new net.Socket()
+				local: localsocket
 			},
 			queued: [],
 			buffer: {
