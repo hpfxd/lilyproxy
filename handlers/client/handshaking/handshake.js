@@ -40,7 +40,8 @@ module.exports = {
 				ip[0] = addresses[0];
 			} catch (ignored) {}
 			console.log("connecting with %s:%d", origip[0], origip[1]);
-			const fwdp = async () => {
+			let fallback = false;
+			const fwdp = async (socket) => {
 				packet.connection.queued.forEach((p, i) => {
 					setTimeout(() => {
 						packet.connection.queued.splice(i, 1);
@@ -51,7 +52,7 @@ module.exports = {
 						if (modified) {
 							p[1] = modified;
 						}
-						packet.connection.socket.remote.write(p[1]);
+						socket.write(p[1]);
 					}, 100 * i);
 				});
 
@@ -66,7 +67,7 @@ module.exports = {
 				try {
 					packet.connection.ping = await pinger.pingPromise(ip[0], ip[1]);
 				} catch (ignored) {}
-				if (!packet.connection.socket.remote.destroyed) {
+				if (!socket.destroyed && !fallback) {
 					app.events.emit("connect", packet.connection);
 				}
 			};
@@ -74,13 +75,16 @@ module.exports = {
 
 			packet.connection.socket.remote.once("connect", () => {
 				console.log("Connected");
-				setTimeout(fwdp, 150);
+				setTimeout(fwdp, 150, packet.connection.socket.remote);
 			});
 
 			packet.connection.socket.remote.setTimeout(1500);
 			packet.connection.socket.remote.once("error", () => {
-				console.log("Connecting to fallback server.");
-				packet.connection.socket.remote.connect("node1.hpf.fun", 25567);
+				console.log("Using fallback server.");
+				packet.connection.socket.fallback.connect(25567, "node1.hpf.fun", () => {
+					console.log("Fallback server socket connected.");
+				});
+				setTimeout(fwdp, 250, packet.connection.socket.fallback);
 			})
 		}
 	}

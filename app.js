@@ -20,6 +20,11 @@ loadProxies().then((proxies) => {
 	console.log("Loading LilyProxy. Proxies: " + proxies.length);
 	const localport = process.argv[2];
 
+	const fallbackServer = new net.Socket();
+	fallbackServer.connect(25567, "node1.hpf.fun", () => {
+		console.log("Fallback server socket connected.");
+	});
+
 	const server = net.createServer((localsocket) => {
 		let randomProxy = getProxy();
 		randomProxy = randomProxy.split(":");
