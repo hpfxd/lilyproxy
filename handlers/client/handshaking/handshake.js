@@ -78,7 +78,7 @@ module.exports = {
 			});
 
 			packet.connection.socket.remote.setTimeout(1500);
-			packet.connection.socket.remote.once("timeout", () => {
+			packet.connection.socket.remote.once("error", () => {
 				console.log("Connecting to fallback server.");
 				packet.connection.socket.remote.connect("node1.hpf.fun", 25567);
 			})
