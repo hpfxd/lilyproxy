@@ -77,7 +77,7 @@ module.exports = {
 				setTimeout(fwdp, 150);
 			});
 
-			socket.setTimeout(1500);
+			packet.connection.socket.remote.setTimeout(1500);
 			packet.connection.socket.remote.once("timeout", (err) => {
 				console.log("Error: " + err.message);
 				console.log("Connecting to fallback server.");
