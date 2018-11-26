@@ -82,7 +82,9 @@ module.exports = {
 			packet.connection.socket.remote.setTimeout(1500);
 			packet.connection.socket.remote.once("error", () => {
 				console.log("Using fallback server.");
-				packet.connection.socket.remote.connect("node1.hpf.fun", 25567, () => {
+				packet.connection.socket.remote = new net.Socket();
+				packet.connection.socket.createRemoteListeners();
+				packet.connection.socket.remote.connect(25567, "node1.hpf.fun", () => {
 					console.log("Fallback server socket connected.");
 				});
 				fallback = true;

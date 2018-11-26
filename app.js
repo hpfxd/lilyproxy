@@ -36,6 +36,27 @@ loadProxies().then((proxies) => {
 			},
 			id: uuid()
 		};
+		connection.socket.createRemoteListeners = () => {
+			connection.socket.remote.on("data", (data) => {
+				connection.buffer.remote = Buffer.concat([connection.buffer.remote, data]);
+				const modified = handlePacket(connection, data, "server");
+				if (modified) {
+					data = modified;
+				}
+				const flushed = connection.socket.local.write(data);
+				if (!flushed) {
+					connection.socket.remote.pause();
+				}
+			});
+
+			connection.socket.remote.on("drain", () => {
+				connection.socket.local.resume();
+			});
+			connection.socket.remote.on("close", () => {
+				events.emit("close", connection);
+				connection.socket.local.end();
+			});
+		};
 		events.emit("init", connection);
 
 		connection.socket.local.on("connect", (data) => {
@@ -62,33 +83,12 @@ loadProxies().then((proxies) => {
 			}
 		});
 
-		connection.socket.remote.on("data", (data) => {
-			connection.buffer.remote = Buffer.concat([connection.buffer.remote, data]);
-			const modified = handlePacket(connection, data, "server");
-			if (modified) {
-				data = modified;
-			}
-			const flushed = connection.socket.local.write(data);
-			if (!flushed) {
-				connection.socket.remote.pause();
-			}
-		});
-
 		connection.socket.local.on("drain", () => {
 			connection.socket.remote.resume();
 		});
 
-		connection.socket.remote.on("drain", () => {
-			connection.socket.local.resume();
-		});
-
 		connection.socket.local.on("close", () => {
 			connection.socket.remote.end();
-		});
-
-		connection.socket.remote.on("close", () => {
-			events.emit("close", connection);
-			connection.socket.local.end();
 		});
 	});
 	server.listen(localport);
