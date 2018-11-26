@@ -241,7 +241,7 @@ process.on("uncaughtException", (e) => {
 });
 
 function logError(e) {
-	console.error(e.stack.toString().red.replace(/(^.+$)/gm, "$1".red).replace(/(\(.+\))/g, "$1".magenta));
+	console.error(e.stack.toString().red.replace(/(^.+$)/gm, "$1".red).replace(/\((.+)\)/g, "$1".magenta));
 }
 
 function capitalizeFirstLetter(string) {
