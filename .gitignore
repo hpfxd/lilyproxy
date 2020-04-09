@@ -2,3 +2,4 @@ node_modules/
 live-proxies.txt
 config.json
 proxies.txt
+.directory
