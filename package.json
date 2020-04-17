@@ -15,7 +15,7 @@
     "flakeid": "^0.3.1",
     "hoek": "^5.0.4",
     "http-proxy-agent": "^2.1.0",
-    "https-proxy-agent": "^2.2.1",
+    "https-proxy-agent": "^2.2.3",
     "minecraft-pinger": "^1.0.3",
     "proxysocket": "^1.2.0",
     "rooty": "^2.0.0",
